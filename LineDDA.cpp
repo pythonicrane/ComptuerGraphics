@@ -1,11 +1,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<gl/glut.h>
-<<<<<<< HEAD
 inline int myround(const float a)//ËÄÉáÎåÈë
-=======
-inline int myround(const float a)
->>>>>>> 8a0387e10f5a6dd45a053add0d763decab2c5952
 {
 	return int(a + 0.5);
 }
