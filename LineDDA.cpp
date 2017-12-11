@@ -1,7 +1,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<gl/glut.h>
-inline int round(const float a)
+inline int myround(const float a)
 {
 	return int(a + 0.5);
 }
@@ -38,12 +38,12 @@ void lineDDA(int x0, int y0, int xEnd, int yEnd)
 
 	xIncrement = float(dx) / float(steps);
 	yIncrement = float(dy) / float(steps);
-	putPixel(round(x), round(y));
+	putPixel(myround(x), myround(y));
 	for (k = 0;k < steps;k++)
 	{
 		x += xIncrement;
 		y += yIncrement;
-		putPixel(round(x), round(y));
+		putPixel(myround(x), myround(y));
 	}
 
 }
