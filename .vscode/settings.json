@@ -27,7 +27,10 @@
         "-std=c++11",
         "-Wall"
     ],
-    "clang.completion.enable":false // 效果稍好，但太卡，故关掉
+    "clang.completion.enable": false,
+    "files.associations": {
+        "iostream": "cpp"
+    } // 效果稍好，但太卡，故关掉
 }
 
 /*全局设置

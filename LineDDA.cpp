@@ -1,19 +1,19 @@
-#include<stdlib.h>
-#include<math.h>
-#include<gl/glut.h>
-inline int myround(const float a)//四舍五入
+#include <gl/glut.h>
+#include <math.h>
+#include <stdlib.h>
+inline int myround(const float a) //四舍五入
 {
 	return int(a + 0.5);
 }
 
-void putPixel(int x, int y) {//画点的方法
-	glColor3f(0.0, 1.0, 1.0);//画笔颜色
-	glPointSize(5.0);//画笔粗细
+void putPixel(int x, int y)
+{							  //画点的方法
+	glColor3f(0.0, 1.0, 1.0); //画笔颜色
+	glPointSize(5.0);		  //画笔粗细
 	glBegin(GL_POINTS);
-	glVertex2f(x, y);//画点
+	glVertex2f(x, y); //画点
 	glEnd();
 }
-
 
 /**
 *计算机图形学第三版  DDA画直线算法 算法
@@ -27,7 +27,7 @@ void lineDDA(int x0, int y0, int xEnd, int yEnd)
 	float xIncrement, yIncrement;
 	float x = x0, y = y0;
 
-	if (fabs(dx) > fabs(dy))
+	if (fabs(dx) > fabs(dy))//选取增量大的为除数
 	{
 		steps = fabs(dx);
 	}
@@ -36,16 +36,15 @@ void lineDDA(int x0, int y0, int xEnd, int yEnd)
 		steps = fabs(dy);
 	}
 
-	xIncrement = float(dx) / float(steps);
-	yIncrement = float(dy) / float(steps);
-	putPixel(myround(x), myround(y));
-	for (k = 0;k < steps;k++)
+	xIncrement = float(dx) / float(steps);//获得x每一步的增量
+	yIncrement = float(dy) / float(steps);//获得y每一步的增量
+	putPixel(myround(x), myround(y));//起点
+	for (k = 0; k < steps; k++)//以步数迭代
 	{
 		x += xIncrement;
 		y += yIncrement;
 		putPixel(myround(x), myround(y));
 	}
-
 }
 
 void display(void)
@@ -58,18 +57,17 @@ void display(void)
 	lineDDA(0, 0, 0, 500);
 	lineDDA(0, 500, 500, 500);
 	lineDDA(500, 0, 500, 500);
-	lineDDA(0, 0, 500, 500);//k=1
+	lineDDA(0, 0, 500, 500); //k=1
 	lineDDA(0, 0, 500, 250);
 	lineDDA(0, 250, 500, 500);
-	lineDDA(0, 500, 500, 0);//k=-1
+	lineDDA(0, 500, 500, 0); //k=-1
 	lineDDA(0, 250, 500, 0);
 	lineDDA(0, 500, 500, 250);
-	lineDDA(250, 0, 250, 500);//k=0
-	lineDDA(0, 250, 500, 250);//k不存在
+	lineDDA(250, 0, 250, 500); //k=0
+	lineDDA(0, 250, 500, 250); //k不存在
 
 	glFlush();
 }
-
 
 int main(int argc, char **argv)
 {
@@ -82,6 +80,4 @@ int main(int argc, char **argv)
 	gluOrtho2D(0.0, 500.0, 0.0, 500.0);
 	glutMainLoop();
 	return 0;
-
 }
-
