@@ -58,6 +58,7 @@ void BresenhamCircle(int x0, int y0, int radius)
  * 当D>0，取B，则下一个中心点D1=F(Xp+2,Yp-1.5)=D+2Xp-2Yp+5
  * 当D<0，取T，则下一个中心点D1=F(Xp+2,Yp-0.5)=D+2Xp+3
  * 初始D为F(0,R-0.5)=1.25-R,令新D=d=D+0.25,则初始d为1-R
+ * @athor zhaoheln 2017年12月13日 22:06:30
 */
 void MidPointCircle(int x0, int y0, int radius)
 {
@@ -87,6 +88,12 @@ void MidPointCircle(int x0, int y0, int radius)
     }
 }
 
+/**
+ * 中心点画圆算法的一种优化
+ * 利用二阶差分
+ * 在原有的基础上再一次求二阶D
+ * @athor zhaoheln 2017年12月13日 22:06:30
+*/
 void MidPointCircleOptimize(int x0, int y0, int radius)
 {
     int x = 0;
