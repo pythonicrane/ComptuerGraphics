@@ -53,18 +53,19 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT);
 	glViewport(0, 0, 500, 500);
 	//坐标起点及终点
-	lineDDA(0, 0, 500, 0);
-	lineDDA(0, 0, 0, 500);
-	lineDDA(0, 500, 500, 500);
-	lineDDA(500, 0, 500, 500);
-	lineDDA(0, 0, 500, 500); //k=1
-	lineDDA(0, 0, 500, 250);
-	lineDDA(0, 250, 500, 500);
-	lineDDA(0, 500, 500, 0); //k=-1
-	lineDDA(0, 250, 500, 0);
-	lineDDA(0, 500, 500, 250);
-	lineDDA(250, 0, 250, 500); //k=0
-	lineDDA(0, 250, 500, 250); //k不存在
+	// lineDDA(0, 0, 500, 0);
+	// lineDDA(0, 0, 0, 500);
+	// lineDDA(0, 500, 500, 500);
+	// lineDDA(500, 0, 500, 500);
+	// lineDDA(0, 0, 500, 500); //k=1
+	// lineDDA(0, 0, 500, 250);
+	// lineDDA(0, 250, 500, 500);
+	// lineDDA(0, 500, 500, 0); //k=-1
+	// lineDDA(0, 250, 500, 0);
+	// lineDDA(0, 500, 500, 250);
+	// lineDDA(250, 0, 250, 500); //k=0
+	// lineDDA(0, 250, 500, 250); //k不存在
+	lineDDA(500, 200, 0, 200);
 
 	glFlush();
 }

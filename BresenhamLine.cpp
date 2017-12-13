@@ -10,9 +10,9 @@ using namespace std;
 void putPixel(int x, int y)
 {                             //画点的方法
     glColor3f(1.0, 0.0, 0.0); //画笔颜色
-    glPointSize(1.0);         //画笔粗细
+    glPointSize(5.0);         //画笔粗细
     glBegin(GL_POINTS);
-    glVertex2f(x, y);         //画点
+    glVertex2f(x, y); //画点
     glEnd();
 }
 
@@ -28,7 +28,7 @@ void DrawBresenhamlineSimple(int x0, int y0, int x1, int y1)
     int disy = y1 - y0;                  //y轴增量
     float k = (float)disy / (float)disx; //获得斜率,!!!注意要用浮点运算，否则K=0
     float divError = k - 0.5;            //初始化偏差为k，减去0.5，则以y=0为相对参考轴
-    for (; x <= x1; x++)                  //迭代x,注意起点和终点
+    for (; x <= x1; x++)                 //迭代x,注意起点和终点
     {
         putPixel(x, y);
         cout << x << " " << y << endl;
@@ -37,7 +37,7 @@ void DrawBresenhamlineSimple(int x0, int y0, int x1, int y1)
             y++;
             divError = divError - 1;
         }
-        divError += k;//若放在if语句前则多加了一个k,在for循环前加了一次
+        divError += k; //若放在if语句前则多加了一个k,在for循环前加了一次
     }
 }
 
@@ -52,16 +52,16 @@ void DrawBresenhamlineInteger(int x0, int y0, int x1, int y1)
     int y = y0;
     int disx = x1 - x0;
     int disy = y1 - y0;
-    int divError = (disy<<2) - disx; //e=(f)disy/(f)disx - 0.5,两边同乘2倍disx，2disx=disx+disx,令divError=2*e*disx
-    for (; x <= x1;x++)
+    int divError = (disy << 2) - disx; //e=(f)disy/(f)disx - 0.5,两边同乘2倍disx，2disx=disx+disx,令divError=2*e*disx
+    for (; x <= x1; x++)
     {
         putPixel(x, y);
-        if(divError>0)
+        if (divError > 0)
         {
             y++;
-            divError -= disx<<2; //原来是e-=1,两边同乘2*disx;令divError = 2*e*disx得
+            divError -= disx << 2; //原来是e-=1,两边同乘2*disx;令divError = 2*e*disx得
         }
-        divError += disy<<2;//同理，原来为e+=k,两边同乘2*disx;令divError = 2*e*disx得
+        divError += disy << 2; //同理，原来为e+=k,两边同乘2*disx;令divError = 2*e*disx得
     }
 }
 
@@ -71,9 +71,94 @@ void DrawBresenhamlineInteger(int x0, int y0, int x1, int y1)
 */
 void DrawBresenhamlineIntegerCommon(int x0, int y0, int x1, int y1)
 {
-
+    int x = x0;
+    int y = y0;
+    int disx = x1 - x0;//x方向矢量距离
+    int disy = y1 - y0;//y方向矢量距离
+    int abs_disx = abs(disx);
+    int abs_disy = abs(disy);
+    int inc_x, inc_y;//定义x,y轴增量
+    if(disx<0)//当线段方向为x轴向左时候
+    {
+        inc_x = -1;
+    }else
+    {
+        inc_x = 1;
+    }
+    if(disy<0)//当线段方向为y轴向下时候
+    {
+        inc_y = -1;
+    }else
+    {
+        inc_y = 1;
+    }
+    int doubleabs_disx = abs_disx << 2;//计算绝对值的2倍
+    int doubleabs_disy = abs_disy << 2;//计算绝对值的2倍
+    if (abs_disx > abs_disy)
+    {
+        int divError = doubleabs_disy - abs_disx; //e=(f)disy/(f)disx - 0.5,两边同乘2倍disx，2disx=disx+disx,令divError=2*e*disx
+        for (int index=0; index <= abs_disx;index++)
+        {
+            putPixel(x, y);
+            if (divError > 0)
+            {
+                y += inc_y;
+                divError -= doubleabs_disx; //原来是e-=1,两边同乘2*disx;令divError = 2*e*disx得
+            }
+            divError += doubleabs_disy; //同理，原来为e+=k,两边同乘2*disx;令divError = 2*e*disx得
+            x+= inc_x;
+        }
+    }
+    else
+    {
+        int divError = doubleabs_disx - abs_disx; //e=(f)disy/(f)disx - 0.5,两边同乘2倍disx，2disx=disx+disx,令divError=2*e*disx
+        for (int index=0; index <= abs_disy;index++)
+        {
+            putPixel(x, y);
+            if (divError > 0)
+            {
+                x += inc_x;
+                divError -= doubleabs_disy; //原来是e-=1,两边同乘2*disx;令divError = 2*e*disx得
+            }
+            divError += doubleabs_disx; //同理，原来为e+=k,两边同乘2*disx;令divError = 2*e*disx得
+            y += inc_y;
+        }
+    }
 }
 
+/**
+ * 重载整数Bresenham算法，通用算法，任意斜率
+ *  @author zhaoheln 2017年12月11日 20:15:43
+*/
+void DrawBresenhamlineIntegerCommon(double x0, double y0, double x1, double y1)
+{
+    DrawBresenhamlineIntegerCommon((int)x0, (int)y0, (int)x1, (int)y1);
+}
+
+
+//绘画汇总函数
+void displaycallFun()
+{
+    DrawBresenhamlineIntegerCommon(250, 250, 500, 400);
+    DrawBresenhamlineIntegerCommon(250, 250, 400, 500);
+    DrawBresenhamlineIntegerCommon(250, 250, 0, 400);
+    DrawBresenhamlineIntegerCommon(250, 250, 100, 500);
+    DrawBresenhamlineIntegerCommon(250, 250, 0, 100);
+    DrawBresenhamlineIntegerCommon(250, 250, 100, 0);
+    DrawBresenhamlineIntegerCommon(250, 250, 400, 0);
+    DrawBresenhamlineIntegerCommon(250, 250, 500, 100);
+
+    DrawBresenhamlineIntegerCommon(250, 250, 500, 250);
+    DrawBresenhamlineIntegerCommon(250, 250, 250, 500);
+    DrawBresenhamlineIntegerCommon(250, 250, 0, 250);
+    DrawBresenhamlineIntegerCommon(250, 250, 250, 0);
+    DrawBresenhamlineIntegerCommon(500, 500, 500, 500);
+
+    DrawBresenhamlineIntegerCommon(23.4, 10.5, 499.1, 475.5);
+}
+
+
+//OpenGL显示初始化
 void display()
 {
     //Start:初始化GL绘图
@@ -82,13 +167,14 @@ void display()
     glViewport(0, 0, 500, 500);
     //  End:初始化GL绘图
 
-    DrawBresenhamlineInteger(0, 0, 500, 100);
+    displaycallFun();
 
     //Strat:强制刷新缓冲，保证绘图命令将被执行
     glFlush();
     //  End:强制刷新缓冲，保证绘图命令将被执行
 }
 
+//主函数
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
