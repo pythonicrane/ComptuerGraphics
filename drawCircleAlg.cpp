@@ -57,7 +57,7 @@ void BresenhamCircle(int x0, int y0, int radius)
  * TB的中点为M(Xp+1,Yp-0.5),点M的D=F(x,y)=（Xp+1)^2+(Yp-0.5)^2-R^2
  * 当D>0，取B，则下一个中心点D1=F(Xp+2,Yp-1.5)=D+2Xp-2Yp+5
  * 当D<0，取T，则下一个中心点D1=F(Xp+2,Yp-0.5)=D+2Xp+3
- * 初始D为F(0,R-0.5)=1.25-R,令新D=d=D+0.25,则初始d为1-R
+ * 初始D为F(0,R-0.5)=1.25-R,令新D=d=D+0.25,则初始d为1-R,判定d<-0.25<0
  * @athor zhaoheln 2017年12月13日 22:06:30
 */
 void MidPointCircle(int x0, int y0, int radius)
@@ -90,8 +90,13 @@ void MidPointCircle(int x0, int y0, int radius)
 
 /**
  * 中心点画圆算法的一种优化
- * 利用二阶差分
- * 在原有的基础上再一次求二阶D
+ * 利用二阶差分Δ(Δy(x))=Δ(y(x+1) - y(x))=Δy(x+1) - Δy(x)
+ * 一阶选T，ΔD=2Xp+3，一阶选B，ΔD=2Xp-2Yp+5
+ * 当第二阶选T时Xp+1,Yp不变，且一阶选T，则ΔΔDt=[2(Xp+1)+3]-[2Xp+3]=2
+ * 当第二阶选T时Xp+1,Yp不变，且一阶选B，则ΔΔDt=[2(Xp+1)-2Yp+5]-[2Xp-2Yp+5]=2
+ * 当第二阶选B时Xp+1,Yp-1,  且一阶选T，则ΔΔDb=[2(Xp+1)+3]-[2Xp+3]=2
+ * 当第二阶选B时Xp+1,Yp-1,  且一阶选B，则ΔΔDb=[2(Xp+1)-2(Yp-1)+5]-[2Xp-2Yp+5]=4
+ * D的初始值就是一阶差分
  * @athor zhaoheln 2017年12月13日 22:06:30
 */
 void MidPointCircleOptimize(int x0, int y0, int radius)
@@ -99,8 +104,8 @@ void MidPointCircleOptimize(int x0, int y0, int radius)
     int x = 0;
     int y = radius;
     int d = 1 - radius;
-    int dt = 3;
-    int db = -(radius << 1) + 5;
+    int dt = 3;//将(0,R)代入ΔD=2Xp+3得3
+    int db = -(radius << 1) + 5;//将(0,R)代入ΔD=2Xp-2Yp+5得-2R+5
     while (y>x)
     {
         //圆的八方对称点,画出第一象限上半区的点，即可得到其他七个区的七个点
@@ -112,7 +117,7 @@ void MidPointCircleOptimize(int x0, int y0, int radius)
         putPixel(-x+x0, -y+y0);
         putPixel(x+x0, -y+y0);
         putPixel(y+x0, -x+y0);
-        if(d<0)
+        if(d<0)//D小于0，中点在圆内，选T
         {
             d += dt;
             db += 2;
