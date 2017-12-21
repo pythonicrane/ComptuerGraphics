@@ -6,6 +6,10 @@
 
 void init(void)
 {
+	glutSetColor(0, 0.0f, 0.0f, 0.0f);
+	glutSetColor(1, 1.0f, 0.0f, 0.0f);
+	glutSetColor(2, 0.0f, 1.0f, 0.0f);
+	glutSetColor(3, 0.0f, 0.0f, 1.0f);
 	glClearColor(1.0, 1.0, 1.0, 0.5);//窗口背景颜色
 	glMatrixMode(GL_PROJECTION);//矩阵模型，接下来做什么操作
 	gluOrtho2D(0.0, 200.0, 0.0, 150.0);//2D正交投影
