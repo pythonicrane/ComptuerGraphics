@@ -121,16 +121,12 @@ void drawFun()
 	// glVertex2i(0,450);
 
 	glEnd();
-<<<<<<< HEAD
 	edgeMarkFill(6, points);
-=======
->>>>>>> 546bf3eea7f9f8d08454b437deb779dd6820bf08
 	glFlush();
 }
 
 void init(void)
 {
-<<<<<<< HEAD
 	glClearColor(1.0, 1.0, 1.0, 1.0);   //窗口背景颜色
 	glMatrixMode(GL_PROJECTION);		//矩阵模型，接下来做什么操作
 	gluOrtho2D(0.0, 200.0, 0.0, 150.0); //2D正交投影
@@ -156,31 +152,4 @@ int main(int argc, char **argv)
 	glutReshapeFunc(reshape); //为什么要加这个？!!!不加这个绘制会越界
 	glutMainLoop();
 	return 0;
-=======
-	glClearColor(1.0, 1.0, 1.0, 0.5);//窗口背景颜色
-	glMatrixMode(GL_PROJECTION);//矩阵模型，接下来做什么操作
-	gluOrtho2D(0.0, 200.0, 0.0, 150.0);//2D正交投影
-}
-
-void reshape(int w,int h)
-{
-    glViewport(0,0,(GLsizei)w,(GLsizei)h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0.0,(GLdouble)w,0.0,(GLdouble)h);
-}
-
-int main(int argc,char ** argv)
-{
-	 glutInit(&argc,argv);
-	 glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
-	 glutInitWindowPosition(10, 10);
-	 glutInitWindowSize(1000, 1000);
-	 glutCreateWindow("Test");
-	 init();
-	 glutDisplayFunc(drawFun);
-	 glutReshapeFunc(reshape);//为什么要加这个？!!!不加这个绘制会越界
-	 glutMainLoop();
-	 return 0;
->>>>>>> 546bf3eea7f9f8d08454b437deb779dd6820bf08
 }
