@@ -1,3 +1,7 @@
+/**
+*计算机图形学第三版第七章P161二维变换例子
+*@author ZhaoHeln 2018年1月2日 15:58:05
+*/
 #include<gl/glut.h>
 #include<stdlib.h>
 #include<math.h>
@@ -8,6 +12,7 @@ GLsizei winWidth = 600, winHeight = 600;
 GLfloat xwcMin = 0.0, xwcMax = 225.0;
 GLfloat ywcMin = 0.0, ywcMax = 225.0;
 
+//顶点对象
 class wcPt2D
 {
 public:
@@ -26,6 +31,7 @@ void init()
 	gluOrtho2D(xwcMin, winWidth, ywcMin, winHeight);
 }
 
+/* 单位矩阵 */
 void matrix3x3SetIdentity(Matrix3x3 matIdent3x3)
 {
 	GLint row, col;
@@ -36,6 +42,7 @@ void matrix3x3SetIdentity(Matrix3x3 matIdent3x3)
 		}
 }
 
+/* 3*3矩阵相乘，结果存在m2中 */
 void matrix3x3PreMultiply(Matrix3x3 m1, Matrix3x3 m2)
 {
 	GLint row, col;
@@ -53,27 +60,48 @@ void matrix3x3PreMultiply(Matrix3x3 m1, Matrix3x3 m2)
 		}
 }
 
+/*打印矩阵matComposite*/
+void printMatrix()
+{
+	GLint row, col;
+	cout << "matComposite Matrix:\n";
+	for (row = 0; row < 3; row++)
+	{
+		for (col = 0; col < 3; col++)
+		{
+			cout << matComposite[row][col]<<"  ";
+		}
+		cout << endl;
+	}
+
+}
+
+/*平移变换*/
 void translate2D(GLfloat tx, GLfloat ty)
 {
 	Matrix3x3 matTransl;
+	matrix3x3SetIdentity(matTransl);
 	matTransl[0][2] = tx;
 	matTransl[1][2] = ty;
 	matrix3x3PreMultiply(matTransl, matComposite);
 }
 
+/*有基准点的旋转变换*/
 void rotate2D(wcPt2D pivotPt, GLfloat theta)
 {
 	Matrix3x3 matRot;
 	matrix3x3SetIdentity(matRot);
+	//旋转矩阵
 	matRot[0][0] = cos(theta);
 	matRot[0][1] = -sin(theta);
 	matRot[0][2] = pivotPt.x*(1 - cos(theta)) + pivotPt.y*sin(theta);
 	matRot[1][0] = sin(theta);
 	matRot[1][1] = cos(theta);
-	matRot[1][2] = pivotPt.y*(1 - cos(theta)) + pivotPt.x*sin(theta);
+	matRot[1][2] = pivotPt.y*(1 - cos(theta)) - pivotPt.x*sin(theta);//写成+了，一直错误
 	matrix3x3PreMultiply(matRot, matComposite);
 }
 
+/*有基准点的缩放变换*/
 void scale2D(GLfloat sx, GLfloat sy, wcPt2D fixedPt)
 {
 	Matrix3x3 matScale;
@@ -87,6 +115,8 @@ void scale2D(GLfloat sx, GLfloat sy, wcPt2D fixedPt)
 	matrix3x3PreMultiply(matScale, matComposite);
 }
 
+
+/*矩阵转换成非齐次方程*/
 void transformVerts2D(GLint nVerts, wcPt2D * verts)
 {
 	GLint k;
@@ -99,6 +129,7 @@ void transformVerts2D(GLint nVerts, wcPt2D * verts)
 	}
 }
 
+/*画三角形*/
 void triangle(wcPt2D * verts)
 {
 	GLint k;
@@ -108,6 +139,7 @@ void triangle(wcPt2D * verts)
 	glEnd();
 }
 
+/*执行函数*/
 void displayFcn()
 {
 	GLint nVerts = 3;
@@ -130,45 +162,25 @@ void displayFcn()
 	GLfloat tx = 0.0, ty = 100.0;
 	GLfloat sx = 0.5, sy = 0.5;
 	GLdouble theta = pi / 2.0;
+	cout <<"旋转角度的SIN值:"<< sin(theta) << endl;
 	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(0.0, 0.0, 1.0);
 	triangle(verts);
-
 	matrix3x3SetIdentity(matComposite);
+	printMatrix();
+
 	scale2D(sx, sy, fixedPt);
 	rotate2D(pivPt, theta);
 	translate2D(tx, ty);
+
 	transformVerts2D(nVerts, verts);
-	//trace
-	cout << verts[0].x << " " << verts[0].y << endl;
-	cout << verts[1].x << " " << verts[1].y << endl;
-	cout << verts[2].x << " " << verts[2].y << endl;
+	printMatrix();
 	glColor3f(1.0, 0.0, 0.0);
 	triangle(verts);
 	glFlush();
 }
 
-void display()
-{
-	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(0.0, 0.0, 1.0);
-	glBegin(GL_TRIANGLES);
-	glVertex2i(50.0, 25.0);
-	glVertex2i(150.0, 25.0);
-	glVertex2i(100.0, 100.0);
-	glEnd();
-
-	glColor3f(1.0, 0.0, 0.0);
-	glBegin(GL_TRIANGLES);
-	glVertex2i(500, 500);
-	glVertex2i(500, 100);
-	glVertex2i(50, 300);
-	glEnd();
-
-
-	glFlush();
-}
-
+/*重绘函数，防止窗口变化*/
 void winReshapeFcn(GLint newWidth, GLint newHeight)
 {
 	glMatrixMode(GL_PROJECTION);
