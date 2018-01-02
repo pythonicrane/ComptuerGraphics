@@ -162,7 +162,7 @@ void displayFcn()
 	GLfloat tx = 0.0, ty = 100.0;
 	GLfloat sx = 0.5, sy = 0.5;
 	GLdouble theta = pi / 2.0;
-	cout <<"旋转角度的SIN值:"<< sin(theta) << endl;
+	cout <<"SIN:"<< sin(theta) << endl;
 	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(0.0, 0.0, 1.0);
 	triangle(verts);
