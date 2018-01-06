@@ -35,18 +35,6 @@ void init()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*执行函数*/
 void displayFcn()
 {
