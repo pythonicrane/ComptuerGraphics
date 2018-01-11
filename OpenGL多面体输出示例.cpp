@@ -3,7 +3,9 @@
 #include <math.h>
 
 #include "gl/glut.h"
-#pragma comment(lib, "glut32.lib")
+#pragma comment(lib,"glut32.lib")
+#pragma comment(lib,"glu32.lib")
+#pragma comment(lib,"opengl32.lib")
 
 #define RADIUS 50.0f
 #define SIZE 100.0f
