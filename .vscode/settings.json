@@ -58,5 +58,8 @@
     "sync.quietSync": false,
     "sync.askGistName": false,
     "editor.background": "#202020",//在主题的json文件中设置
+
+    //sync settings使用，先现在该插件，按F1，输入sync，Download Settings,
+    //输入Token，输入gisth ID，重启
 }
 */
