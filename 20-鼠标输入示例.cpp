@@ -1,5 +1,5 @@
 /**
-* 计算机图形学第三版第14章P460-鼠标输入
+* 计算机图形学第三版第20章P460-鼠标输入
 * 三维立体显示标准模版
 * @author ZhaoHeln 2018年1月26日 11:29:55
 */
@@ -42,7 +42,7 @@ class scrPt
 */
 void init()
 {
-	glClearColor(0.0, 1.0, 1.0, 0.5);
+	glClearColor(1.0, 1.0, 1.0, 0.5);
     glMatrixMode(GL_PROJECTION);
 	gluOrtho2D(xwMin, winWidth, ywMin, winHeight);
 }
@@ -53,7 +53,7 @@ void init()
 void drawLineSegment(scrPt endPt1,scrPt endPt2)
 {
     cout << "Draw Line!\n";
-	glColor3f(0.0, 0.0, 1.0);//设置颜色
+	glColor3f(1.0, 0.0, 0.0);//设置颜色
     glBegin(GL_LINES);
         glVertex2i(endPt1.x, endPt1.y);
         glVertex2i(endPt2.x, endPt2.y);
@@ -107,7 +107,9 @@ void displayFcn()
 	glFlush();//注销后，重绘窗口会出现问题
 }
 
-/*重绘函数，防止窗口变化*/
+/*
+* 重绘函数，防止窗口变化
+*/
 void winReshapeFcn(GLint newWidth, GLint newHeight)
 {
     endPtCtr = 0;
